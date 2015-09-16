@@ -2,6 +2,11 @@
 
 Copy newer files only.
 
+[![npm](https://img.shields.io/npm/v/copy-newer.svg?style=flat-square)](https://www.npmjs.com/package/copy-newer)
+[![Build Status](https://img.shields.io/travis/seangenabe/copy-newer/master.svg?style=flat-square)](https://travis-ci.org/seangenabe/copy-newer)
+[![Dependency Status](https://img.shields.io/david/seangenabe/copy-newer.svg?style=flat-square)](https://david-dm.org/seangenabe/copy-newer)
+[![devDependency Status](https://img.shields.io/david/dev/seangenabe/copy-newer.svg?style=flat-square)](https://david-dm.org/seangenabe/copy-newer#info=devDependencies)
+
 ## Usage
 
 ### API
