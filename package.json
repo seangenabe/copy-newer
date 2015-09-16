@@ -1,0 +1,46 @@
+{
+  "name": "copy-newer",
+  "version": "1.0.0-1",
+  "description": "Copy newer files only.",
+  "main": "./lib/copy.js",
+  "bin": {
+    "copy-newer": "./bin/copy-newer"
+  },
+  "scripts": {
+    "transpile": "babel src --out-dir lib --stage 0 --source-maps --optional runtime",
+    "watch": "babel src --out-dir lib --stage 0 --source-maps --optional runtime --watch",
+    "pretest": "npm run transpile",
+    "test": "mocha lib/test.js",
+    "start": "node ./lib/cli.js"
+  },
+  "repository": "seangenabe/copy-newer",
+  "keywords": [
+    "newer",
+    "cached",
+    "file",
+    "fs",
+    "filesystem",
+    "glob"
+  ],
+  "author": "Sean Genabe <seangenabe@outlook.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/seangenabe/copy-newer/issues"
+  },
+  "homepage": "https://github.com/seangenabe/copy-newer#readme",
+  "dependencies": {
+    "babel-runtime": "^5.8.24",
+    "denodeify": "^1.2.1",
+    "fs-promise": "^0.3.1",
+    "glob": "^5.0.14",
+    "graceful-fs": "^4.1.2",
+    "minimatch": "^2.0.10",
+    "mkdirp": "^0.5.1"
+  },
+  "devDependencies": {
+    "babel": "^5.8.23",
+    "chai": "^3.2.0",
+    "chai-as-promised": "^5.1.0",
+    "mocha": "^2.3.2"
+  }
+}
