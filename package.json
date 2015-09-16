@@ -7,7 +7,9 @@
     "copy-newer": "./bin/copy-newer"
   },
   "scripts": {
+    "mod:fs-promise": "babel-node --harmony build/mod-fs-promise.js",
     "transpile": "babel src --out-dir lib --stage 0 --source-maps --optional runtime",
+    "posttranspile": "npm run mod:fs-promise",
     "watch": "babel src --out-dir lib --stage 0 --source-maps --optional runtime --watch",
     "pretest": "npm run transpile",
     "test": "mocha lib/test.js",

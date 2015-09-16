@@ -3,7 +3,7 @@
 var denodeify = require('denodeify')
 var glob = denodeify(require('glob'))
 var Path = require('path')
-var FS = require('fs-promise')
+var FS = require('./fs-promise')
 var mkdirp = denodeify(require('mkdirp'))
 
 async function copyNewer(src, dest, opts = {}) {

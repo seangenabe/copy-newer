@@ -1,7 +1,7 @@
 'use strict'
 
 var copyNewer = require('./copy')
-var FS = require('fs-promise')
+var FS = require('./fs-promise')
 var Path = require('path')
 var chai = require('chai')
 chai.use(require('chai-as-promised'))
