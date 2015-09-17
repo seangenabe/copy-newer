@@ -1,9 +1,9 @@
 'use strict'
 
-var minimatch = require('minimatch')
+var minimist = require('minimist')
 var copyNewer = require('./copy')
 
-var argv = minimatch(process.argv.slice(2))
+var argv = minimist(process.argv.slice(2))
 
 if (argv._.length < 2) {
   console.error("Invalid number of arguments.")
@@ -12,7 +12,7 @@ if (argv._.length < 2) {
 let src = argv._[0]
 let dest = argv._[1]
 
-(async () => {
+;(async () => {
   try {
     await copyNewer(src, dest)
   }

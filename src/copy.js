@@ -94,3 +94,7 @@ async function copyNewerWrapper(src, dest, opts, next) {
 }
 
 module.exports = copyNewerWrapper
+
+if (require.main === module) {
+  require('./cli.js')
+}
