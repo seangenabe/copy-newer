@@ -1,6 +1,6 @@
 {
   "name": "copy-newer",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Copy newer files only.",
   "main": "./lib/copy.js",
   "bin": {
