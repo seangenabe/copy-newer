@@ -3,20 +3,22 @@
 const pify = require('pify')
 const globby = require('globby')
 const Path = require('path')
-const FS = pify(require('graceful-fs'), { exclude: [ /.+Sync$/, /.+Stream$/]})
-const mkdirp = pify(require('mkdirp'))
+const FS_orig = require('graceful-fs')
+const FS = pify(FS_orig, { exclude: [ /.+Sync$/, /.+Stream$/]})
+const fsWriteStreamAtomic = require('fs-write-stream-atomic')
+const mkdirp_orig = pify(require('mkdirp'))
 
 async function copyNewer(src, dest, opts = {}) {
-
+  let { cwd = process.cwd(), serial = false } = opts
+  src = src.toString()
+  dest = dest.toString()
   let files = await globby(src, opts)
-  let { cwd = process.cwd() } = opts
 
   // Do copy operations in parallel.
   let operations = []
   for (let file of files) {
     let realfile = Path.join(cwd, file)
     let destpath = Path.join(dest, file)
-    console.log('destpath', destpath)
     operations.push(copyNewerSingle(realfile, destpath, opts))
   }
 
@@ -34,8 +36,8 @@ async function copyNewerSingle(srcpath, destpath, opts) {
   // Stat and check the filesystem entry type.
   if (stat.isDirectory()) {
     // Directory, ensure destination exists and return.
-    await mkdirp(destpath)
-    if (verbose) { console.log(`${srcpath} - directory created`) }
+    let made = await mkdirp(destpath)
+    if (verbose && made) { console.log(`${made} - directory created`)}
     return 'dir'
   }
   else if (!stat.isFile()) {
@@ -55,9 +57,12 @@ async function copyNewerSingle(srcpath, destpath, opts) {
 
   if (destmtime !== undefined && srcmtime - destmtime <= interval) {
     // destpath does not exist or mtime is equal, return.
-    if (verbose) { console.log(`${srcpath} - not copied to ${destpath}`) }
+    if (verbose) { console.log(`${srcpath} == ${destpath}`) }
     return false
   }
+
+  // Ensure parent directory exists.
+  await mkdirp(Path.join(destpath, '..'))
 
   // Commence copying.
   let rs = FS.createReadStream(srcpath)
@@ -66,10 +71,9 @@ async function copyNewerSingle(srcpath, destpath, opts) {
   await waitForStreamEnd(ws)
 
   // Set mtime to be equal to the source file.
-  // NB: fs.utimes does not save milliseconds in Windows.
   await FS.utimes(destpath, new Date(), stat.mtime)
 
-  if (verbose) { console.log(`${srcpath} - copied to ${destpath}`) }
+  if (verbose) { console.log(`${srcpath} -> ${destpath}`) }
   return true
 }
 
@@ -78,6 +82,10 @@ async function waitForStreamEnd(stream) {
     stream.on('error', reject)
     stream.on('finish', resolve)
   })
+}
+
+function mkdirp(dir) {
+  return mkdirp_orig(dir, {fs: FS_orig})
 }
 
 module.exports = copyNewer
