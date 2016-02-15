@@ -7,11 +7,12 @@
     "copy-newer": "./bin/copy-newer"
   },
   "scripts": {
-    "transpile": "babel src --out-dir lib",
-    "watch": "npm run transpile -- --watch",
-    "pretest": "npm run transpile",
+    "build": "cross-env BABEL_ENV=production babel src --out-dir lib",
+    "watch": "npm run build -- --watch",
     "start": "node ./lib/cli.js",
-    "prepublish": "npm run transpile"
+    "pretest": "npm run build",
+    "test": "ava",
+    "prepublish": "npm run build"
   },
   "repository": "seangenabe/copy-newer",
   "keywords": [
@@ -35,15 +36,14 @@
     "mkdirp": "^0.5.1"
   },
   "devDependencies": {
+    "ava": "^0.11.0",
     "babel-cli": "^6.5.1",
     "babel-plugin-transform-async-to-generator": "^6.5.0",
     "babel-plugin-transform-es2015-destructuring": "^6.5.0",
     "babel-plugin-transform-es2015-parameters": "^6.5.0",
     "babel-register": "^6.5.2",
-    "chai": "^3.2.0",
-    "chai-as-promised": "^5.1.0",
+    "cross-env": "^1.0.7",
     "delayer": "^1.0.1",
-    "mocha": "^2.3.2",
   },
   "engines": {
     "node": ">=4"
@@ -53,6 +53,14 @@
       "transform-async-to-generator",
       "transform-es2015-destructuring",
       "transform-es2015-parameters"
-    ]
+    ],
+    "env": {
+      "development": {
+        "sourceMaps": "inline"
+      }
+    }
+  },
+  "ava": {
+    "failFast": true
   }
 }
