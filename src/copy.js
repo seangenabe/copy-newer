@@ -9,7 +9,7 @@ const fsWriteStreamAtomic = require('fs-write-stream-atomic')
 const mkdirp_orig = pify(require('mkdirp'))
 
 async function copyNewer(src, dest, opts = {}) {
-  let { cwd = process.cwd(), serial = false } = opts
+  let { cwd = process.cwd() } = opts
   src = src.toString()
   dest = dest.toString()
   let files = await globby(src, opts)

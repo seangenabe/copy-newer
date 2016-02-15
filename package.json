@@ -2,16 +2,16 @@
   "name": "copy-newer",
   "version": "1.0.2",
   "description": "Copy newer files only.",
-  "main": "./lib/copy.js",
+  "main": "./dist/copy.js",
   "bin": {
     "copy-newer": "./bin/copy-newer"
   },
   "scripts": {
-    "build": "cross-env BABEL_ENV=production babel src --out-dir lib",
+    "build": "cross-env BABEL_ENV=production babel src --out-dir dist",
     "watch": "npm run build -- --watch",
-    "start": "node ./lib/cli.js",
+    "start": "node ./dist/cli.js",
     "pretest": "npm run build",
-    "test": "ava",
+    "test": "nyc ava",
     "prepublish": "npm run build"
   },
   "repository": "seangenabe/copy-newer",
@@ -39,12 +39,15 @@
   "devDependencies": {
     "ava": "^0.11.0",
     "babel-cli": "^6.5.1",
+    "babel-core": "^6.5.2",
     "babel-plugin-transform-async-to-generator": "^6.5.0",
     "babel-plugin-transform-es2015-destructuring": "^6.5.0",
     "babel-plugin-transform-es2015-parameters": "^6.5.0",
     "babel-register": "^6.5.2",
+    "coveralls": "^2.11.6",
     "cross-env": "^1.0.7",
     "delayer": "^1.0.1",
+    "nyc": "^5.6.0"
   },
   "engines": {
     "node": ">=4"
@@ -62,6 +65,7 @@
     }
   },
   "ava": {
-    "failFast": true
+    "failFast": true,
+    "require": ["babel-core/register"]
   }
 }
