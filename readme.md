@@ -13,28 +13,46 @@ Copy newer files only.
 ### API
 
 ```javascript
-var copyNewer = require('copy-newer')
+const copyNewer = require('copy-newer')
 ```
 
-### copyNewer(src, dest, [opts], [next])
+### copyNewer(src, dest, [opts])
 
 Copies files to a destination directory.
 
-* `src`: string - A glob string to select for the files to copy.
+* `src`: array|string - One or more [glob patterns](https://github.com/isaacs/minimatch#usage) to select for the files to copy.
 * `dest`: string - The directory to copy to.
-* `opts`: string - Optional. Options to send directly to `glob`.
+* `opts`: object - Optional. Options to send directly to `glob`.
   * `opts.interval`: number - Optional. The number of milliseconds to wait before a file is considered 'new'. Default: 1000
-* `next`: Function<Error> - Optional. Node-style callback. Called when all file operations complete.
+  * `opts.cwd`: string - Same as glob's. The current working directory in which to search. Defaults to `process.cwd()`. (Included here because you'll most likely need it.)
+  * `opts.verbose`: boolean - enable verbose logging to stdout. Defaults to `false`: no output ever occurs.
+  * Other options can be found on [glob](https://github.com/isaacs/minimatch)'s documentation.
+* **Returns:** `Promise`: Resolved when all file operations complete.
+  Note: The resolved value is not empty, but it isn't useful either, for now. It's just an array of booleans that indicate whether each copy operation was done or skipped. For directories, a literal string `dir` will be represented in the output.
 
-Returns a `Promise` that resolves when all file operations complete.
-
-Note: In Windows, fs.utimes does not save the milliseconds portion of the date, hence the default 1000 ms interval. If anyone can get around this or have some suggestions, drop by the Github project page.
+Note: `fs.stat` has a millisecond resolution while `fs.utimes` has a second resolution, hence the 1000 ms `opts.interval`. While node.js stays this way, changing `opts.interval` to a value lower than 1000 is not recommended.
 
 ### CLI
 
 ```bash
-copy-newer src dest
+copy-newer --cwd cwd src dest
 ```
+
+Copies globbed files from `src` mounted on `cwd` to `dest`.
+
+**Example**
+
+Copy the contents of "folder1" to "folder2":
+```bash
+copy-newer --cwd folder1 ** folder2
+```
+
+**Options**
+
+* `-v`, `--verbose` - set `opts.verbose`
+* `--cwd` - set `opts.cwd`
+
+All options are passed-through to `glob` via minimist, although only `--cwd` will be officially supported. (The issue here is glob isn't a CLI in the first place. Again, if anyone wants to discuss, hit up on Github.)
 
 ## Similar packages
 
