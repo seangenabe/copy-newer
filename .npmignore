@@ -1,1 +1,4 @@
-# !lib/
+*.log
+coverage
+.nyc_output
+.idea

@@ -1,7 +1,6 @@
 dist/
-src/*.txt
 node_modules/
 *.log
-.idea
 coverage
 .nyc_output
+.idea
