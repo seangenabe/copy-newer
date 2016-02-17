@@ -43,7 +43,7 @@ module.exports.dir = async () => {
     let srcname = Path.basename(src)
     let pattern = argv._[2] ? argv._[2] : '**'
     argv.cwd = src
-    let realdest = `${dest/srcname}`
+    let realdest = `${dest}/${srcname}`
     await copyNewer(pattern, realdest, argv)
     await mkdirp(realdest)
   }
