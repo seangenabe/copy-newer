@@ -4,7 +4,8 @@
   "description": "Copy newer files only.",
   "main": "./dist/copy.js",
   "bin": {
-    "copy-newer": "./bin/copy-newer"
+    "copy-newer": "./bin/copy-newer",
+    "copy-newer-dir": "./bin/copy-newer-dir"
   },
   "scripts": {
     "build": "cross-env BABEL_ENV=production babel src --out-dir dist",

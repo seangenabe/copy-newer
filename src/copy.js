@@ -2,7 +2,6 @@
 
 const pify = require('pify')
 const globby = require('globby')
-const Path = require('path')
 const FS_orig = require('graceful-fs')
 const FS = pify(FS_orig, { exclude: [ /.+Sync$/, /.+Stream$/]})
 const fsWriteStreamAtomic = require('fs-write-stream-atomic')
@@ -17,8 +16,8 @@ async function copyNewer(src, dest, opts = {}) {
   // Do copy operations in parallel.
   let operations = []
   for (let file of files) {
-    let realfile = Path.join(cwd, file)
-    let destpath = Path.join(dest, file)
+    let realfile = `${cwd}/${file}`
+    let destpath = `${dest}/${file}`
     operations.push(copyNewerSingle(realfile, destpath, opts))
   }
 
@@ -62,7 +61,7 @@ async function copyNewerSingle(srcpath, destpath, opts) {
   }
 
   // Ensure parent directory exists.
-  await mkdirp(Path.join(destpath, '..'))
+  await mkdirp(`${destpath}/..`)
 
   // Commence copying.
   let rs = FS.createReadStream(srcpath)
