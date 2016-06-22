@@ -6,12 +6,15 @@ const FS_orig = require('graceful-fs')
 const FS = pify(FS_orig, { exclude: [ /.+Sync$/, /.+Stream$/]})
 const fsWriteStreamAtomic = require('fs-write-stream-atomic')
 const mkdirp_orig = pify(require('mkdirp'))
+const Util = require('util')
+const log = Util.debuglog('copy-newer')
 
 async function copyNewer(src, dest, opts = {}) {
   let { cwd = process.cwd() } = opts
   src = src.toString()
   dest = dest.toString()
   let files = await globby(src, opts)
+  log(`globbed files: ${Util.inspect(files)}`)
 
   // Do copy operations in parallel.
   let operations = []
