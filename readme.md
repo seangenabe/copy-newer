@@ -1,5 +1,7 @@
 # copy-newer
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/seangenabe/copy-newer.svg)](https://greenkeeper.io/)
+
 Copy newer files only.
 
 [![npm](https://img.shields.io/npm/v/copy-newer.svg?style=flat-square)](https://www.npmjs.com/package/copy-newer)
